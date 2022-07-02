@@ -32,8 +32,10 @@ function AddBeer(){
             })
             .then((r)=> r.json())
             .then((data)=>{
+                console.log(beer);
                 onAddBeer(data)
                 setFormdata("")
+                
             })
     }
     return (
