@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams} from 'react-router'
 
-function EditBeer() {
+function EditBeerPage() {
     const [beerData, setBeerData] = useState({
         name: "",
         beer_type: "",
@@ -38,7 +38,7 @@ function EditBeer() {
 
     function handleChange(e) {
         const {name, value} = e.target
-        setFormdata((formData)=> ({...formData, [name]: value}))
+        setBeerData((beerData)=> ({...beerData, [name]: value}))
     }
 
     return (
@@ -102,4 +102,4 @@ function EditBeer() {
     )
 }
 
-export default EditBeer
+export default EditBeerPage
