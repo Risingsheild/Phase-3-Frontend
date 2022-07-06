@@ -16,8 +16,7 @@ function EditBeerPage() {
     fetch(`http://localhost:9292/beers/individual/${params.id}`)
     .then(res => res.json())
     .then(data => setBeerData(data))
-
-    },[])
+},[])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -29,11 +28,9 @@ function EditBeerPage() {
                 Accept: "application/json",
             },
             body: JSON.stringify(beerData)
-        })
-        .then((r) => r.json())
-        .then((data)=> {
-            beerData(data)
-            setBeerData("") })            
+        })   
+        .then((resp) => resp.json())
+        .then((data) => console.log(data))     
     }
 
     function handleChange(e) {

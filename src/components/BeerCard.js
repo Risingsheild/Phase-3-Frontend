@@ -1,11 +1,38 @@
 import React, {useState} from "react";
 import {useNavigate,useParams} from "react-router"
-import ReactCardFlip from "react-card-flip"
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import IconButton from '@mui/material/IconButton';
+import CardContent from '@mui/material/CardContent';
+import Rating from '@mui/material/Rating'
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { styled } from '@mui/material/styles'
+
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+    })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
 
 function BeerCard({beer, onDeleteBeer}) {
-    const [isFlipped, setIsFlipped] = useState(false)
+    const [expanded, setExpanded] = useState(false)
     const navigate = useNavigate
     const params = useParams()
+
+
+function handleExpandedClick (e) {
+    e.preventDefault();
+    setExpanded(!expanded)
+}
 
 function handleDelete() {
     fetch(`http://localhost:9292/beers/individual/${params.id}`, {
@@ -15,54 +42,56 @@ function handleDelete() {
     .then(() => onDeleteBeer(beer))
 }
 
-// function handleNewRating(rating) {
-//     fetch(`http://localhost:9292/ratings`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//             Accept: "application/json"
-//         },
-//         body: JSON.stringify({
-//             rating_value: rating,
-//             beer_id: beer.id
-//         })
-//     })
-//     .then(r => r.json())
-//     .then(beer => console.log(beer))
-// }
-
-    function handleClickFlip(e) {
-        setIsFlipped((prev) => !prev)
-        console.log(e);
-    }
-
-    // function handleEditClick(){
-
-    // }
+function handleNewRating(rating) {
+    fetch(`http://localhost:9292/ratings`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({
+            rating_value: rating,
+            beer_id: beer.id
+        })
+    })
+    .then(r => r.json())
+    .then(beer => console.log(beer))
+}
 
 
     return (
-        <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
-            <div id="card" className="cardFront" onClick={handleClickFlip}>
-                <li>
-                    <h4>{beer.name}</h4>
-                    <img src={beer.image} alt={beer.name}/>
-                    <p>{beer.abv}% ABV</p>
-                    <p>{beer.average_rating}</p>
-                </li>
-            </div>
-            <div className="cardBack" onClick={handleClickFlip}>
-                    <li>
-                        <p>{beer.name} is a {beer.beer_type}</p>
-                        <p>Found at {beer.brewey_name} if you happen to visit please give this on a try</p>
-                        <button className="editBeer" onClick={() => navigate(`edit/${beer.id}`)}>Edit this Beer</button>
-                        <button className="delete" onClick={handleDelete}>Delete</button>
-                    </li>
-            </div>
-
-        </ReactCardFlip>
+       <div className="card-container">
+        <Card sx={{ maxWidth: 345 }}>
+            <CardHeader className="card-header"
+                title={beer.name}
+                subheader={beer.beer_type}/>
+            <img className="card-image" src={beer.image} alt={beer.name}/>
+            <CardActions disableSpacing>
+                <IconButton onDeleteBeer={handleDelete}>
+                    <DeleteIcon/>
+                </IconButton>
+                <IconButton onClick={() => navigate(`edit/${beer.id}`)}>
+                    <EditIcon /> 
+                </IconButton>
+                    <h4>Please Rate this Beer</h4>
+                    <Rating precision={0.5} onClick={handleNewRating}/>
+                <ExpandMore expand={expanded}
+                    onClick={handleExpandedClick}
+                    aria-label="show more">
+                    <ExpandMoreIcon />
+                </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <p>Found Here at {beer.brewery_name}</p>
+                    <p>ABV is {beer.abv}%</p>
+                    <h4>The Average Rating</h4>
+                    <Rating defaultValue={beer.average_rating} precision={0.5} readOnly/>
+                </CardContent>
+            </Collapse>
+        </Card>
+       </div>
     )
-
 }
 
 export default BeerCard

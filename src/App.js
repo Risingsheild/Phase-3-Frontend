@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import HomePage from "./components/HomePage";
 import AddBeer from "./components/AddBeer";
 import EditBeerPage from "./components/EditBeerPage"
-
+import "./components/style.css"
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <NavBar/>
       <Routes>
         <Route path='/' exact element={<HomePage/>}/>
-        <Route path='/' exact element={<AddBeer/>}/>
+        <Route path='/add-a-beer' exact element={<AddBeer/>}/>
         <Route path='/edit/:id' exact element={<EditBeerPage/>}/>
       </Routes>
     </div>

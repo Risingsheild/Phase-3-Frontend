@@ -1,8 +1,8 @@
 import React, {useEffect,useState} from "react";
 import BeerCard from "./BeerCard";
+// import { Params } from "react-router-dom";
 
-
-function HomePage() {
+function HomePage(beers) {
     const [allBeers, setAllBeers] = useState([])
 
     useEffect(() => {
@@ -11,18 +11,21 @@ function HomePage() {
         .then((data) => setAllBeers(data))
     },[])
 
-    function deleteBeer(deletedBeer){
-        const beerList = allBeers.filter((beer) => beer.id !== deletedBeer.id)
-        setAllBeers(beerList)
+    function handleRemove(deletedBeer){
+      const newBeerList = allBeers.filter((beer) => beer.id !== deletedBeer.id)
+      setAllBeers(newBeerList)
+    }
+ 
+      return (
+        <div className="main-container">
+          <div className='home-container'>
+            <BeerCard
+               beer={beers}
+               key={beers.id}
+               onDeleteBeer={handleRemove} />
+          </div>
+        </div>
+      )
     }
 
-    return (
-        <div>
-             <BeerCard
-                onDeleteBeer={deleteBeer}
-                />
-        </div>
-    )
-}
-
-export default HomePage
+    export default HomePage

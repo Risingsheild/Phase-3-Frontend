@@ -1,0 +1,12 @@
+.navBar {
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    grid-area: 1 / 1 / 2 / 6;
+    background-color: rgb(204, 204, 204);
+    padding: 10px 30px;
+    height: 30px;
+    vertical-align: middle;
+  }
