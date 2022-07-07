@@ -61,7 +61,7 @@ function handleNewRating(rating) {
 
     return (
        <div className="card-container">
-        <Card sx={{ maxWidth: 345 }}>
+        <Card className="beer-card" sx={{ maxWidth: 345, border :1 }}>
             <CardHeader className="card-header"
                 title={beer.name}
                 subheader={beer.beer_type}/>

@@ -15,14 +15,15 @@ function HomePage(beers) {
       const newBeerList = allBeers.filter((beer) => beer.id !== deletedBeer.id)
       setAllBeers(newBeerList)
     }
+
+    const displayedBeer = allBeers.map(beer => {
+      return <BeerCard beer={beer} key={beer.id} onDeleteBeer={handleRemove}/>
+    })
  
       return (
         <div className="main-container">
           <div className='home-container'>
-            <BeerCard
-               beer={beers}
-               key={beers.id}
-               onDeleteBeer={handleRemove} />
+            {displayedBeer}
           </div>
         </div>
       )
