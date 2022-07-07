@@ -2,7 +2,7 @@ import React, {useEffect,useState} from "react";
 import BeerCard from "./BeerCard";
 // import { Params } from "react-router-dom";
 
-function HomePage(beers) {
+function HomePage() {
     const [allBeers, setAllBeers] = useState([])
 
     useEffect(() => {

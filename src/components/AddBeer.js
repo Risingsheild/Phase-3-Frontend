@@ -1,26 +1,47 @@
 import React, {useState} from 'react'
 
 function AddBeer(){
+    const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
     const[beer, setBeer] = useState([])
-    const[formData, setFormdata] = useState({
-        name: "",
-        beer_type: "",
-        abv: 0,
-        brewery_name: "",
-        image: "",
-    })
+    const[name, setName] = useState("")
+    const[beer_type, setBeer_type] = useState("")
+    const[abv, setAbv] = useState(0)
+    const[brewery_name, setBrewery_name] = useState("")
+    const[image, setImage] = useState(defaultImage)
+  
 
-    function handleChange(e) {
-        const {name, value} = e.target
-        setFormdata((formData)=> ({...formData, [name]: value}))
+    function handleChangeName(e) {
+        setName(e.target.value)
+    }
+    function handleChangeBeerType(e) {
+        setBeer_type(e.target.value)
+    }
+
+    function handleChangeAbv(e) {
+        setAbv(e.target.value)
+    }
+
+    function handleChangeBreweryName(e) {
+        setBrewery_name(e.target.value)
+    }
+
+    function handleChangeImage(e) {
+        setImage(e.target.value)
     }
 
     function onAddBeer(newBeer) {
-        setBeer((beer)=> [...beer, newBeer])
+        setBeer([...beer, newBeer])
     }
 
     function handleSubmit(e){
         e.preventDefault();
+        const beerItem ={ 
+            name: name,
+            beer_type: beer_type,
+            abv: abv,
+            brewery_name: brewery_name,
+            image: image
+        }
 
         fetch("http://localhost:9292/beers", {
             method: "POST",
@@ -28,14 +49,16 @@ function AddBeer(){
                 "Content-Type": "application/json",
                 Accept: "application/json"
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(beerItem)
             })
             .then((r)=> r.json())
             .then((data)=>{
-                console.log(beer);
                 onAddBeer(data)
-                setFormdata("")
-                
+                setName(""),
+                setBeer_type(""),
+                setAbv("")
+                setBrewery_name("")
+                setImage("")  
             })
     }
     return (
@@ -47,16 +70,16 @@ function AddBeer(){
                     className='beer-form'
                     type="text"
                     id="name"
-                    onChange={handleChange}
-                    value={formData.name} />
+                    onChange={handleChangeName}
+                    value={name} />
 
                 <label className='form-text'>Beer Type</label>
                 <select
                     className='beer-form'
                     name='beer_type'
                     id='beer_type'
-                    onChange={handleChange}
-                    value={formData.beer_type}>
+                    onChange={handleChangeBeerType}
+                    value={beer_type}>
                         <option value=''>Select</option>
                         <option value='Pilsner'>Pilsner</option>
                         <option value='Porter'>Porter</option>
@@ -72,8 +95,8 @@ function AddBeer(){
                     type='text'
                     id="brewery_name"
                     name="brewery_name"
-                    onChange={handleChange}
-                    value={formData.brewery_name}/>
+                    onChange={handleChangeBreweryName}
+                    value={brewery_name}/>
 
                 <label className='form-text'>ABV</label>
                 <input 
@@ -81,8 +104,8 @@ function AddBeer(){
                     type="number"
                     step="0.1"
                     id='abv'
-                    onChange={handleChange}
-                    value={formData.abv} />
+                    onChange={handleChangeAbv}
+                    value={abv} />
 
                 <label className='form-text'>Image</label>
                 <input 
@@ -90,8 +113,8 @@ function AddBeer(){
                     type="text"
                     id='image'
                     name='image'
-                    onChange={handleChange}
-                    value={formData.image} />
+                    onChange={handleChangeImage}
+                    value={image} />
 
                 <button className='submit-button' type='submit'>Submit Beer</button>
             </form>

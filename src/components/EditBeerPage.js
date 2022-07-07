@@ -2,61 +2,81 @@ import React, {useState, useEffect} from 'react'
 import {useParams} from 'react-router'
 
 function EditBeerPage() {
-    const [beerData, setBeerData] = useState({
-        name: "",
-        beer_type: "",
-        abv: 0,
-        brewery_name: "",
-        image: "",
-    })
+    const[beer, setBeer] = useState([])
+    const[name, setName] = useState("")
+    const[beer_type, setBeer_type] = useState("")
+    const[abv, setAbv] = useState(0)
+    const[brewery_name, setBrewery_name] = useState("")
+    const[image, setImage] = useState(defaultImage)
 
     const params = useParams()
 
     useEffect(()=> { 
     fetch(`http://localhost:9292/beers/individual/${params.id}`)
     .then(res => res.json())
-    .then(data => setBeerData(data))
+    .then(data => setBeer(data))
 },[])
 
-    function handleSubmit(e) {
-        e.preventDefault()
-
-        fetch(`http://localhost:9292/beers/${params.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(beerData)
-        })   
-        .then((resp) => resp.json())
-        .then((data) => console.log(data))     
+function handleSubmit(e){
+    e.preventDefault();
+    const beerItem ={ 
+        name: name,
+        beer_type: beer_type,
+        abv: abv,
+        brewery_name: brewery_name,
+        image: image
     }
 
-    function handleChange(e) {
-        const {name, value} = e.target
-        setBeerData((beerData)=> ({...beerData, [name]: value}))
+    fetch(`http://localhost:9292/beers/${params.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify(beerItem)
+        })
+        .then((r)=> r.json())
+        .then((data)=> beer(data))
     }
 
+    function handleChangeName(e) {
+        setName(e.target.value)
+    }
+    function handleChangeBeerType(e) {
+        setBeer_type(e.target.value)
+    }
+
+    function handleChangeAbv(e) {
+        setAbv(e.target.value)
+    }
+
+    function handleChangeBreweryName(e) {
+        setBrewery_name(e.target.value)
+    }
+
+    function handleChangeImage(e) {
+        setImage(e.target.value)
+    }
+    
     return (
         <div className='add-beer-form'>
             <form className="form" onSubmit={handleSubmit}>
-                <h2>Edit this Beer</h2>
+                <h2>Add Your Favorite Local Beer</h2>
                 <label className='form-text'>Name</label>
                 <input 
                     className='beer-form'
                     type="text"
                     id="name"
-                    onChange={handleChange}
-                    value={beerData.name} />
+                    onChange={handleChangeName}
+                    value={name} />
 
                 <label className='form-text'>Beer Type</label>
                 <select
                     className='beer-form'
                     name='beer_type'
                     id='beer_type'
-                    onChange={handleChange}
-                    value={beerData.beer_type}>
+                    onChange={handleChangeBeerType}
+                    value={beer_type}>
                         <option value=''>Select</option>
                         <option value='Pilsner'>Pilsner</option>
                         <option value='Porter'>Porter</option>
@@ -72,8 +92,8 @@ function EditBeerPage() {
                     type='text'
                     id="brewery_name"
                     name="brewery_name"
-                    onChange={handleChange}
-                    value={beerData.brewery_name}/>
+                    onChange={handleChangeBreweryName}
+                    value={brewery_name}/>
 
                 <label className='form-text'>ABV</label>
                 <input 
@@ -81,8 +101,8 @@ function EditBeerPage() {
                     type="number"
                     step="0.1"
                     id='abv'
-                    onChange={handleChange}
-                    value={beerData.abv} />
+                    onChange={handleChangeAbv}
+                    value={abv} />
 
                 <label className='form-text'>Image</label>
                 <input 
@@ -90,10 +110,10 @@ function EditBeerPage() {
                     type="text"
                     id='image'
                     name='image'
-                    onChange={handleChange}
-                    value={beerData.image} />
+                    onChange={handleChangeImage}
+                    value={image} />
 
-                <button className='submit-button' type='submit'>Saves Changes to Beer</button>
+                <button className='submit-button' type='submit'>Save Changes</button>
             </form>
         </div>
     )
