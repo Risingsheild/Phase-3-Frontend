@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useParams} from 'react-router'
 
 function EditBeerPage() {
+    const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
     const[beer, setBeer] = useState([])
     const[name, setName] = useState("")
     const[beer_type, setBeer_type] = useState("")
