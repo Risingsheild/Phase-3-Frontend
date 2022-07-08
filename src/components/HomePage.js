@@ -11,13 +11,20 @@ function HomePage() {
         .then((data) => setAllBeers(data))
     },[])
 
-    function handleRemove(deletedBeer){
-      const newBeerList = allBeers.filter((beer) => beer.id !== deletedBeer.id)
+    function handleDelete(id) {
+      fetch(`http://localhost:9292/beers/${id}`, {
+          method: "Delete"
+      }) 
+      const newBeerList = allBeers.filter((beer) => beer.id !== id)
       setAllBeers(newBeerList)
+
     }
 
+    
+      
+
     const displayedBeer = allBeers.map(beer => {
-      return <BeerCard beer={beer} key={beer.id} onDeleteBeer={handleRemove}/>
+      return <BeerCard beer={beer} key={beer.id} onDeleteBeer={handleDelete}/>
     })
  
       return (

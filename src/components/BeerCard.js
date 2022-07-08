@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useNavigate,useParams} from "react-router"
+import {useNavigate} from "react-router"
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
@@ -26,7 +26,7 @@ const ExpandMore = styled((props) => {
 function BeerCard({beer, onDeleteBeer}) {
     const [expanded, setExpanded] = useState(false)
     const navigate = useNavigate
-    const params = useParams()
+   // const params = useParams()
 
 
 function handleExpandedClick (e) {
@@ -34,15 +34,15 @@ function handleExpandedClick (e) {
     setExpanded(!expanded)
 }
 
-function handleDelete() {
-    fetch(`http://localhost:9292/beers/individual/${params.id}`, {
-        method: "Delete"
-    })
-    .then((r) => r.json())
-    .then(() => onDeleteBeer(beer))
-}
+// function handleDelete() {
+//     fetch(`http://localhost:9292/beers/individual/${params.id}`, {
+//         method: "Delete"
+//     })
+//     .then((r) => r.json())
+//     .then(() => onDeleteBeer(beer))
+//}
 
-function handleNewRating(rating) {
+function postNewRating(rating) {
     fetch(`http://localhost:9292/ratings`, {
         method: "POST",
         headers: {
@@ -58,6 +58,9 @@ function handleNewRating(rating) {
     .then(beer => console.log(beer))
 }
 
+    function handleNewRating(e) {
+        postNewRating(e.target.value)
+    }
 
     return (
        <div className="card-container">
@@ -67,7 +70,7 @@ function handleNewRating(rating) {
                 subheader={beer.beer_type}/>
             <img className="card-image" src={beer.image} alt={beer.name}/>
             <CardActions disableSpacing>
-                <IconButton onDeleteBeer={handleDelete}>
+                <IconButton onClick={() => onDeleteBeer(beer.id)}>
                     <DeleteIcon/>
                 </IconButton>
                 <IconButton onClick={() => navigate(`edit/${beer.id}`)}>

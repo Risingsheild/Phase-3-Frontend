@@ -52,10 +52,10 @@ function AddBeer(){
             body: JSON.stringify(beerItem)
             })
             .then((r)=> r.json())
-            .then((data)=>{
+            .then((data)=> {
                 onAddBeer(data)
-                setName(""),
-                setBeer_type(""),
+                setName("")
+                setBeer_type("")
                 setAbv("")
                 setBrewery_name("")
                 setImage("")  
