@@ -25,7 +25,7 @@ const ExpandMore = styled((props) => {
 
 function BeerCard({beer, onDeleteBeer}) {
     const [expanded, setExpanded] = useState(false)
-    const navigate = useNavigate
+    const navigate = useNavigate()
    // const params = useParams()
 
 
