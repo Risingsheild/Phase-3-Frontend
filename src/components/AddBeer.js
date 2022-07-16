@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 
-function AddBeer(){
+function AddBeer({onAddBeer}){
     const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
-    const[beer, setBeer] = useState([])
     const[name, setName] = useState("")
     const[beer_type, setBeer_type] = useState("")
     const[abv, setAbv] = useState(0)
@@ -29,10 +28,7 @@ function AddBeer(){
         setImage(e.target.value)
     }
 
-    function onAddBeer(newBeer) {
-        setBeer([...beer, newBeer])
-    }
-
+  
     function handleSubmit(e){
         e.preventDefault();
         const beerItem ={ 

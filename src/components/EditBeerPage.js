@@ -1,22 +1,17 @@
-import React, {useState, useEffect} from 'react'
-import {useParams} from 'react-router'
+import React, {useState} from 'react'
+import {useNavigate} from 'react-router'
 
-function EditBeerPage() {
+
+function EditBeerPage({beer, onUpdateBeer}) {
     const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
-    const[beer, setBeer] = useState([])
     const[name, setName] = useState("")
     const[beer_type, setBeer_type] = useState("")
     const[abv, setAbv] = useState(0)
     const[brewery_name, setBrewery_name] = useState("")
     const[image, setImage] = useState(defaultImage)
 
-    const params = useParams()
 
-    useEffect(()=> { 
-    fetch(`http://localhost:9292/beers/individual/${params.id}`)
-    .then(res => res.json())
-    .then(data => setBeer(data))
-},[])
+    const navigate = useNavigate()
 
 function handleSubmit(e){
     e.preventDefault();
@@ -28,7 +23,7 @@ function handleSubmit(e){
         image: image
     }
 
-    fetch(`http://localhost:9292/beers/${params.id}`, {
+    fetch(`http://localhost:9292/beers/${beer.id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -37,7 +32,9 @@ function handleSubmit(e){
         body: JSON.stringify(beerItem)
         })
         .then((r)=> r.json())
-        .then((data)=> beer(data))
+        .then((data)=> {
+        onUpdateBeer(data)
+        navigate("/")})
     }
 
     function handleChangeName(e) {

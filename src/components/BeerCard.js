@@ -28,19 +28,19 @@ function BeerCard({beer, onDeleteBeer}) {
     const navigate = useNavigate()
    // const params = useParams()
 
-
+// console.log(beer)
 function handleExpandedClick (e) {
     e.preventDefault();
     setExpanded(!expanded)
 }
 
-// function handleDelete() {
-//     fetch(`http://localhost:9292/beers/individual/${params.id}`, {
-//         method: "Delete"
-//     })
-//     .then((r) => r.json())
-//     .then(() => onDeleteBeer(beer))
-//}
+function handleDelete() {
+    fetch(`http://localhost:9292/beers/${beer.id}`, {
+        method: "Delete"
+    })
+    .then((r) => r.json())
+    .then(() => onDeleteBeer(beer.id))
+}
 
 function postNewRating(rating) {
     fetch(`http://localhost:9292/ratings`, {
@@ -55,7 +55,7 @@ function postNewRating(rating) {
         })
     })
     .then(r => r.json())
-    .then(beer => console.log(beer))
+    .then(data => console.log(data))
 }
 
     function handleNewRating(e) {
@@ -70,7 +70,7 @@ function postNewRating(rating) {
                 subheader={beer.beer_type}/>
             <img className="card-image" src={beer.image} alt={beer.name}/>
             <CardActions disableSpacing>
-                <IconButton onClick={() => onDeleteBeer(beer.id)}>
+                <IconButton onClick={handleDelete}>
                     <DeleteIcon/>
                 </IconButton>
                 <IconButton onClick={() => navigate(`edit/${beer.id}`)}>
