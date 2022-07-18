@@ -38,7 +38,7 @@ function updateBeer(currentBeer){
       <Routes>
         <Route path='/' exact element={<HomePage beers={beers} onDeleteBeer={handleDelete}/>}/>
         <Route path='/add-a-beer' exact element={<AddBeer onAddBeer={onAddBeer}/>}/>
-        <Route path='/edit/:id' exact element={<EditBeerPage beer={beers} onUpdateBeer={updateBeer}/>}/>
+        <Route path='/beer/:id/edit' exact element={<EditBeerPage beer={beers} onUpdateBeer={updateBeer}/>}/>
       </Routes>
     </div>
   );

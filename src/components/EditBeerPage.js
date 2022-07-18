@@ -1,17 +1,34 @@
-import React, {useState} from 'react'
-import {useNavigate} from 'react-router'
+import React, {useState, useEffect} from 'react'
+import {useNavigate, useParams} from 'react-router'
 
 
-function EditBeerPage({beer, onUpdateBeer}) {
-    const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
+function EditBeerPage({onUpdateBeer}) {
+    //const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
+    const[beer, setBeer] = useState(null)
+    const {id} = useParams
     const[name, setName] = useState("")
     const[beer_type, setBeer_type] = useState("")
     const[abv, setAbv] = useState(0)
     const[brewery_name, setBrewery_name] = useState("")
-    const[image, setImage] = useState(defaultImage)
+    const[image, setImage] = useState("")
 
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        fetch(`http://localhost:9292/beers/individual/${id}`)
+        .then((r) => r.json())
+        .then((data) => {
+            setBeer(data)
+            setName(data.name)
+            setBeer_type(data.beer_type)
+            setAbv(data.abv)
+            setBrewery_name(data.brewery_name)
+            setImage(data.image)
+        })
+
+
+    },[])
 
 function handleSubmit(e){
     e.preventDefault();
@@ -23,7 +40,7 @@ function handleSubmit(e){
         image: image
     }
 
-    fetch(`http://localhost:9292/beers/${beer.id}`, {
+    fetch(`http://localhost:9292/beer/${beer.id}/edit`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -32,7 +49,7 @@ function handleSubmit(e){
         body: JSON.stringify(beerItem)
         })
         .then((r)=> r.json())
-        .then((data)=> {
+        .then((data)=> { 
         onUpdateBeer(data)
         navigate("/")})
     }
@@ -59,7 +76,7 @@ function handleSubmit(e){
     return (
         <div className='add-beer-form'>
             <form className="form" onSubmit={handleSubmit}>
-                <h2>Add Your Favorite Local Beer</h2>
+                <h2>Edit This Beer </h2>
                 <label className='form-text'>Name</label>
                 <input 
                     className='beer-form'
