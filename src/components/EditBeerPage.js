@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate, useParams} from 'react-router'
 
-
-function EditBeerPage({onUpdateBeer}) {
-    //const defaultImage = "https://pngimg.com/uploads/beer/beer_PNG2376.png"
-    const[beer, setBeer] = useState(null)
-    const {id} = useParams
+function EditBeerPage({ onUpdateBeer}) {
+    const[beer, setBeer] = useState("")
+    const {id} = useParams()
     const[name, setName] = useState("")
     const[beer_type, setBeer_type] = useState("")
     const[abv, setAbv] = useState(0)
@@ -16,7 +14,7 @@ function EditBeerPage({onUpdateBeer}) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch(`http://localhost:9292/beers/individual/${id}`)
+        fetch(`http://localhost:9292/beers/${id}`)
         .then((r) => r.json())
         .then((data) => {
             setBeer(data)
@@ -40,7 +38,7 @@ function handleSubmit(e){
         image: image
     }
 
-    fetch(`http://localhost:9292/beer/${beer.id}/edit`, {
+    fetch(`http://localhost:9292/beers/${beer.id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

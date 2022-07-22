@@ -73,7 +73,7 @@ function postNewRating(rating) {
                 <IconButton onClick={handleDelete}>
                     <DeleteIcon/>
                 </IconButton>
-                <IconButton onClick={() => navigate(`/beer/${beer.id}/edit`)}>
+                <IconButton onClick={() => navigate(`/beers/${beer.id}`)}>
                     <EditIcon /> 
                 </IconButton>
                     <h4>Please Rate this Beer</h4>
