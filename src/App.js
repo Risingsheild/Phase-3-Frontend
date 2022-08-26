@@ -31,6 +31,12 @@ function updateBeer(currentBeer){
   setBeers(newBeerItem)
 }
 
+function postRating(currentBeer) {
+  const newRating = beers.map((beer) => 
+  beer.id === currentBeer.id ? currentBeer : beer)
+  setBeers(newRating) 
+}
+
   return (
     <div className="App">
       <h3>Best local Beers</h3>
@@ -38,7 +44,7 @@ function updateBeer(currentBeer){
       <Routes>
         <Route path='/' exact element={<HomePage beers={beers} onDeleteBeer={handleDelete}/>}/>
         <Route path='/add-a-beer' exact element={<AddBeer onAddBeer={onAddBeer}/>}/>
-        <Route path='/beers/:id' exact element={<EditBeerPage beer={beers} onUpdateBeer={updateBeer}/>}/>
+        <Route path='/beers/:id' exact element={<EditBeerPage beer={beers} onUpdateBeer={updateBeer} onPostRating={postRating}/>}/>
       </Routes>
     </div>
   );

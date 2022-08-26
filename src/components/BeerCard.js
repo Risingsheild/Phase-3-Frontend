@@ -23,7 +23,7 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-function BeerCard({beer, onDeleteBeer}) {
+function BeerCard({beer, onDeleteBeer, onPostRating}) {
     const [expanded, setExpanded] = useState(false)
     const navigate = useNavigate()
    // const params = useParams()
@@ -55,7 +55,7 @@ function postNewRating(rating) {
         })
     })
     .then(r => r.json())
-    .then(data => console.log(data))
+    .then(data => onPostRating(data))
 }
 
     function handleNewRating(e) {

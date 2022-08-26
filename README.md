@@ -20,7 +20,7 @@ You may also see any lint errors in the console.
 image.png
  
  In this App you will be Rating Beers in a Local DataBase  
- As well as Create or Edit any existing Beers
+ As well as Create, Edit or Delete any existing Beers
 
 ## Full CRUD
 
